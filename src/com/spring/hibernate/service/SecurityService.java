@@ -16,18 +16,18 @@ import java.util.List;
  */
 public interface SecurityService {
     
-    public void save(Person person);
-    public void delete(Person person);
+    public Person save(Person person);
+    public Person delete(Person person);
     public Person getPerson(Long id);
     public List<Person> getPersons();
     
-    public void save(Menu menu);
-    public void delete(Menu menu);
+    public Menu save(Menu menu);
+    public Menu delete(Menu menu);
     public Menu getMenu(Long id);
     public List<Menu> getMenus();
     
-    public void save(Role role);
-    public void delete(Role role);
+    public Role save(Role role);
+    public Role delete(Role role);
     public Role getRole(Long id);
     public List<Role> getRoles();
 }

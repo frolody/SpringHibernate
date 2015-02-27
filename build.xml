@@ -10,22 +10,42 @@
 <project name="SpringHibernate" default="default" basedir=".">
     <description>Builds, tests, and runs the project SpringHibernate.</description>
     <import file="nbproject/build-impl.xml"/>
-    <taskdef name="jrc" classname="net.sf.jasperreports.ant.JRAntCompileTask">
-    <classpath>
-        <fileset dir="./lib">
-            <include name="**/*.jar"/>
-        </fileset>
-    </classpath>
+    <taskdef name="jrc"
+        classname="net.sf.jasperreports.ant.JRAntCompileTask">
+        <classpath>
+            <fileset dir="./lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpath>
     </taskdef>
     <target name="-post-compile">
         <mkdir dir="./build/reports"/>
         <delete>
             <fileset file="./src/reports/*.jasper"/>
         </delete>
-        <jrc srcdir="./src/reports" destdir="./src/reports" tempdir="./build/reports"
-                    keepjava="true" xmlvalidation="true">
+        <jrc
+            srcdir="./src/reports"
+            destdir="./src/reports"
+            tempdir="./build/reports"
+            keepjava="true"
+            xmlvalidation="true">
             <include name="**/*.jrxml"/>
         </jrc>
+    </target>
+    <taskdef name="IzPack" classname="com.izforge.izpack.ant.IzPackTask">
+        <classpath>
+            <fileset dir="./installer-lib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpath>
+    </taskdef>
+    <property name="base.dir" value="/Users/Fadli Hudaya/My Documents/GitHub/spring-hibernate/SpringHibernate"/>
+    <target name="-post-jar">
+        <IzPack input="${base.dir}/installer/install-client.xml" output="${base.dir}/dist/POS-client-installer.jar"
+            installerType="standard"
+            basedir="${base.dir}"/>
+        <IzPack input="${base.dir}/installer/install-server.xml" output="${base.dir}/dist/POS-server-installer.jar" installerType="standard"
+            basedir="${base.dir}"/>
     </target>
     <!--
 

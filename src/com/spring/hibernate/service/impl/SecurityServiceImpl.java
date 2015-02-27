@@ -34,14 +34,14 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Transactional
     @Override
-    public void save(Person person) {
-        personDao.save(person);
+    public Person save(Person person) {
+        return personDao.save(person);
     }
 
     @Transactional
     @Override
-    public void delete(Person person) {
-        personDao.delete(person);
+    public Person delete(Person person) {
+        return personDao.delete(person);
     }
 
     @Override
@@ -56,14 +56,14 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Transactional
     @Override
-    public void save(Menu menu) {
-        menuDao.save(menu);
+    public Menu save(Menu menu) {
+        return menuDao.save(menu);
     }
 
     @Transactional
     @Override
-    public void delete(Menu menu) {
-        menuDao.delete(menu);
+    public Menu delete(Menu menu) {
+        return menuDao.delete(menu);
     }
 
     @Override
@@ -78,14 +78,14 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Transactional
     @Override
-    public void save(Role role) {
-        roleDao.save(role);
+    public Role save(Role role) {
+        return roleDao.save(role);
     }
 
     @Transactional
     @Override
-    public void delete(Role role) {
-        roleDao.delete(role);
+    public Role delete(Role role) {
+        return roleDao.delete(role);
     }
 
     @Override

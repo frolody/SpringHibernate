@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  *
  * @author Fadli Hudaya
+ * @param <T>
  */
 public class BaseDaoHibernate<T> {
 
@@ -28,12 +29,14 @@ public class BaseDaoHibernate<T> {
                 .getActualTypeArguments()[0];
     }
 
-    public void save(T domain) {
+    public T save(T domain) {
         sessionFactory.getCurrentSession().saveOrUpdate(domain);
+        return domain;
     }
 
-    public void delete(T domain) {
+    public T delete(T domain) {
         sessionFactory.getCurrentSession().delete(domain);
+        return domain;
     }
 
     @SuppressWarnings("unchecked")
@@ -43,7 +46,7 @@ public class BaseDaoHibernate<T> {
 
     @SuppressWarnings("unchecked")
     public Long count() {
-        List list = sessionFactory.getCurrentSession().createQuery("SELECT COUNT(*) FROM " 
+        List list = sessionFactory.getCurrentSession().createQuery("SELECT COUNT(*) FROM "
                 + domainClass.getName() + " x").list();
         Long count = (Long) list.get(0);
         return count;
@@ -51,13 +54,13 @@ public class BaseDaoHibernate<T> {
 
     @SuppressWarnings("unchecked")
     public List<T> getAll() {
-        return sessionFactory.getCurrentSession().createQuery("FROM " 
+        return sessionFactory.getCurrentSession().createQuery("FROM "
                 + domainClass.getName()).list();
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<T> getAll(int start, int num) {
-        return sessionFactory.getCurrentSession().createQuery("FROM " 
+        return sessionFactory.getCurrentSession().createQuery("FROM "
                 + domainClass.getName()).setFirstResult(start).setMaxResults(num).list();
     }
 }
