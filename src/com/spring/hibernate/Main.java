@@ -6,6 +6,7 @@
 package com.spring.hibernate;
 
 import com.spring.hibernate.service.ProductService;
+import com.spring.hibernate.service.ReportService;
 import com.spring.hibernate.service.SalesService;
 import com.spring.hibernate.service.SecurityService;
 import com.spring.hibernate.view.MainFrame;
@@ -21,6 +22,7 @@ public class Main {
     private static SecurityService securityService;
     private static ProductService productService;
     private static SalesService salesService;
+    private static ReportService reportService;
     private static MainFrame frame;
 
     public static SecurityService getSecurityService() {
@@ -33,6 +35,10 @@ public class Main {
 
     public static SalesService getSalesService() {
         return salesService;
+    }
+
+    public static ReportService getReportService() {
+        return reportService;
     }
     
     public static MainFrame getMainFrame() {
@@ -48,6 +54,7 @@ public class Main {
         securityService = (SecurityService) appContext.getBean("securityService");
         productService = (ProductService) appContext.getBean("productService");
         salesService = (SalesService) appContext.getBean("salesService");
+        reportService = (ReportService) appContext.getBean("reportService");
         frame = new MainFrame();
         frame.setVisible(true);
 //        BarangService barangService = (BarangService) appContext.getBean("barangService");

@@ -453,14 +453,10 @@ public class SalesView extends javax.swing.JInternalFrame {
 
     private void btnBrowseIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseIdActionPerformed
         Product p = new ProductLookupDialog().getProduct();
-        int i = 1;
         if (p != null) {
             boolean isProductInSalesDetail = false;
             for (SalesDetail s : list) {
-                System.out.println(i);
-                i++;
                 if (s.getProduct().getId().equals(p.getId())) {
-                    System.out.println("Kena");
                     s.setQuantity(s.getQuantity() + 1);
                     s.setSubtotal(s.getPrice().multiply(new BigDecimal(s.getQuantity())));
                     isProductInSalesDetail = true;
@@ -482,7 +478,6 @@ public class SalesView extends javax.swing.JInternalFrame {
             //cari apakah barang sudah ada dalam tabel sales detail
             Long pId = Long.valueOf(productId);
             boolean isProductInSalesDetail = false;
-            int i = 0;
             for (SalesDetail s : list) {
                 if (s.getProduct().getId().equals(pId)) {
                     s.setQuantity(s.getQuantity() + 1);
