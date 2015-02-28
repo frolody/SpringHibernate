@@ -5,18 +5,19 @@
  */
 package com.spring.hibernate.service;
 
-import com.spring.hibernate.entity.Sales;
+import com.spring.hibernate.entity.Purchase;
 import java.util.List;
 
 /**
  *
  * @author Fadli Hudaya
  */
-public interface SalesService {
+public interface PurchaseService {
     
-    Sales save(Sales sales);
-    Sales delete(Sales sales);
-    Sales getSales(Long id);
-    List<Sales> getAll();
-    List<Sales> getAll(int start, int num);
+    Purchase save(Purchase purchase);
+    Purchase delete(Purchase purchase);
+    Purchase getById(Long id);
+    List<Purchase> getAll();
+    List<Purchase> getAll(int start, int num);
+    
 }

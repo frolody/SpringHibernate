@@ -10,7 +10,7 @@ import com.spring.hibernate.entity.Product;
 import com.spring.hibernate.entity.Sales;
 import com.spring.hibernate.entity.SalesDetail;
 import com.spring.hibernate.util.TextComponentUtils;
-import com.spring.hibernate.view.dialog.ProductLookupDialog;
+import com.spring.hibernate.view.product.ProductLookupDialog;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -401,6 +401,7 @@ public class SalesView extends javax.swing.JInternalFrame {
         if (sales != null) {
             try {
                 Main.getSalesService().delete(sales);
+                System.out.println("Pass");
                 clearForm();
                 sales = null;
                 refreshTable();
@@ -408,7 +409,7 @@ public class SalesView extends javax.swing.JInternalFrame {
                 //pengaturan tombol
                 buttonConfig();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
                 JOptionPane.showMessageDialog(this, "Data Masih Digunakan ! Tidak Dapat Menghapus Data",
                         "Informasi", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -431,6 +432,7 @@ public class SalesView extends javax.swing.JInternalFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Data Gagal Disimpan !",
                         "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                e.printStackTrace();
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -448,7 +450,16 @@ public class SalesView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnExit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit1ActionPerformed
-        //Sales s = new Sal
+        Sales s = new SalesLookupDialog().getSales();
+        if (s != null) {
+            sales = Main.getSalesService().getSales(s.getId());
+            loadModelToForm();
+            btnDelete.setEnabled(true);
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(true);
+            btnEdit.setEnabled(true);
+            btnSave.setEnabled(false);
+        }
     }//GEN-LAST:event_btnExit1ActionPerformed
 
     private void btnBrowseIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseIdActionPerformed
@@ -580,10 +591,7 @@ public class SalesView extends javax.swing.JInternalFrame {
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            if (columnIndex == 3) {
-                return true;
-            }
-            return false;
+            return columnIndex == 3;
         }
 
         @Override

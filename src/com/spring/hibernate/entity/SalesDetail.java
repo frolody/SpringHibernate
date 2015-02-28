@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.spring.hibernate.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,40 +13,48 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Fadli Hudaya
+ * @author ifnu
  */
 @Entity
 @Table(name = "T_SALES_DETAIL")
 public class SalesDetail implements Serializable {
-    
+
     @Id
     @GeneratedValue
     @Column(name = "ID")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne//(cascade = CascadeType.ALL)
     @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
-    
+
     @Column(name = "QUANTITY", nullable = false)
     private Integer quantity;
-    
+
     @Column(name = "PRICE", nullable = false, precision = 18, scale = 0)
     private BigDecimal price;
-    
+
     @Column(name = "SUBTOTAL", nullable = false, precision = 18, scale = 0)
-    private BigDecimal subtotal;
-    
+    private BigDecimal subtotal = BigDecimal.ZERO;
+
     @ManyToOne
     @JoinColumn(name = "SALES_ID", nullable = false)
     private Sales sales;
-    
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public Product getProduct() {
@@ -69,12 +73,12 @@ public class SalesDetail implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public Sales getSales() {
+        return sales;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setSales(Sales sales) {
+        this.sales = sales;
     }
 
     public BigDecimal getSubtotal() {
@@ -85,12 +89,4 @@ public class SalesDetail implements Serializable {
         this.subtotal = subtotal;
     }
 
-    public Sales getSales() {
-        return sales;
-    }
-
-    public void setSales(Sales sales) {
-        this.sales = sales;
-    }
-    
 }

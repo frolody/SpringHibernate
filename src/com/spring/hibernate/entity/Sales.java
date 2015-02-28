@@ -1,9 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.spring.hibernate.entity;
+
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,30 +16,35 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.Cascade;
 
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+
 /**
  *
- * @author Fadli Hudaya
+ * @author ifnu
  */
 @Entity
-@Table(name = "T_SALES")
-public class Sales implements Serializable {
-    
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
+@Table(name="T_SALES")
+public class Sales implements Serializable{
+
+    @Id @GeneratedValue
+    @Column(name="ID")
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "SALES_DATE", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="SALES_DATE",nullable=false)
     private Date salesDate;
-    
-    @OneToMany(mappedBy = "sales", cascade = CascadeType.ALL)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+
+    @OneToMany(mappedBy="sales",cascade=CascadeType.ALL, orphanRemoval = true)
     private List<SalesDetail> salesDetails;
-    
-    @Column(name = "TOTAL_SALES", precision = 18, scale = 0, nullable = false)
+
+    @Column(name="TOTAL_SALES",precision=18,scale=0,nullable=false)
     private BigDecimal totalSales;
-    
+
     public Long getId() {
         return id;
     }
@@ -75,5 +76,5 @@ public class Sales implements Serializable {
     public void setTotalSales(BigDecimal totalSales) {
         this.totalSales = totalSales;
     }
-    
+
 }

@@ -17,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,9 +29,6 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "T_PERSON", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})})
 public class Person implements Serializable {
-    
-    @OneToOne(mappedBy = "person")
-    private Customer customer;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,14 +66,6 @@ public class Person implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public String getName() {

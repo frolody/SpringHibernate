@@ -29,7 +29,7 @@ public class GenerateTables {
         Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
         Connection con = dataSource.getConnection();
         new SchemaExport(cfg, con).create(true, true);
-        SecurityService securityService = (SecurityService) appContext.getBean("securityService");
+        //SecurityService securityService = (SecurityService) appContext.getBean("securityService");
         System.exit(0);
     }
     

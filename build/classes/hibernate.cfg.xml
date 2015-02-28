@@ -13,11 +13,13 @@
     <mapping class="com.spring.hibernate.entity.Person"/>
     <mapping class="com.spring.hibernate.entity.Role"/>
     <mapping class="com.spring.hibernate.entity.Menu"/>
-    <mapping class="com.spring.hibernate.entity.Customer"/>
     <mapping class="com.spring.hibernate.entity.Sales"/>
     <mapping class="com.spring.hibernate.entity.Product"/>
     <mapping class="com.spring.hibernate.entity.SalesDetail"/>
     <mapping class="com.spring.hibernate.entity.Address"/>
+    <mapping class="com.spring.hibernate.entity.Supplier"/>
+    <mapping class="com.spring.hibernate.entity.Purchase"/>
+    <mapping class="com.spring.hibernate.entity.PurchaseDetail"/>
     <!-- <mapping resource="barang.hbm.xml"/> -->
   </session-factory>
 </hibernate-configuration>

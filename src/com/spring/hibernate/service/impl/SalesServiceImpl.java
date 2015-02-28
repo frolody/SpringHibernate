@@ -10,6 +10,7 @@ import com.spring.hibernate.entity.Sales;
 import com.spring.hibernate.service.SalesService;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,28 +21,31 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("salesService")
 @Transactional(readOnly = true)
-public class SalesServiceImpl implements SalesService{
+public class SalesServiceImpl implements SalesService {
 
     @Autowired
     private SalesDao salesDao;
-    
+
     @Transactional
     @Override
-    public void save(Sales sales) {
+    public Sales save(Sales sales) {
         //agar tanggal yang digunakan adalah tanggal pada server kalau
         // dijalankan dengan arsitektur three tier
         sales.setSalesDate(new Date());
-        salesDao.save(sales);
+        return salesDao.save(sales);
     }
 
+    @Transactional
     @Override
-    public void delete(Sales sales) {
-        salesDao.delete(sales);
+    public Sales delete(Sales sales) {
+        return salesDao.delete(sales);
     }
 
     @Override
     public Sales getSales(Long id) {
-        return salesDao.getById(id);
+        Sales s = salesDao.getById(id);
+        Hibernate.initialize(s.getSalesDetails());
+        return s;
     }
 
     @Override

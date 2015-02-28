@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "T_ROLE")
 public class Role implements Serializable {
-    
+
     @Id
     @GeneratedValue
     @Column(name = "ID")
@@ -31,17 +31,21 @@ public class Role implements Serializable {
 
     @Column(name = "NAME", length = 50, unique = true)
     private String name;
-    
+
     @ManyToMany
-    @JoinTable(name = "T_ROLE_PERSON", joinColumns = {@JoinColumn(name = "ROLE_ID")}, 
-            inverseJoinColumns = {@JoinColumn(name = "PERSON_ID")})
+    @JoinTable(name = "T_ROLE_PERSON", joinColumns = {
+        @JoinColumn(name = "ROLE_ID")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "PERSON_ID")})
     private Set<Person> persons;
-    
+
     @ManyToMany
-    @JoinTable(name = "T_ROLE_MENU", joinColumns = {@JoinColumn(name = "ROLE_ID")}, 
-            inverseJoinColumns = {@JoinColumn(name = "MENU_ID")})
+    @JoinTable(name = "T_ROLE_MENU", joinColumns = {
+        @JoinColumn(name = "ROLE_ID")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "MENU_ID")})
     private Set<Menu> menus;
-    
+
     public Long getId() {
         return id;
     }
@@ -73,5 +77,5 @@ public class Role implements Serializable {
     public void setMenus(Set<Menu> menus) {
         this.menus = menus;
     }
-    
+
 }

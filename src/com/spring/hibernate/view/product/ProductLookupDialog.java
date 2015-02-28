@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.spring.hibernate.view.dialog;
+package com.spring.hibernate.view.product;
 
 import com.spring.hibernate.Main;
 import com.spring.hibernate.entity.Product;
@@ -225,5 +225,4 @@ public class ProductLookupDialog extends javax.swing.JDialog {
             }
         }
     }
-
 }

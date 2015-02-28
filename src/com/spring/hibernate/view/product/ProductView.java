@@ -357,7 +357,7 @@ public class ProductView extends javax.swing.JInternalFrame {
                 //pengaturan tombol
                 buttonConfig();
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Produk Ini Masih Digunakan, Tidak Bisa Dihapus!",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
