@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -41,12 +42,24 @@ public class SalesDetail implements Serializable {
     @JoinColumn(name = "SALES_ID", nullable = false)
     private Sales sales;
 
+    @Type(type = "yes_no")
+    @Column(name = "IS_DELETE")
+    private Boolean hapus;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getHapus() {
+        return hapus;
+    }
+
+    public void setHapus(Boolean hapus) {
+        this.hapus = hapus;
     }
 
     public BigDecimal getPrice() {

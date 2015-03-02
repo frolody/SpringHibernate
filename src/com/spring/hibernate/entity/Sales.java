@@ -14,12 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.hibernate.annotations.Cascade;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 
 
@@ -48,7 +43,7 @@ public class Sales implements Serializable{
     public Long getId() {
         return id;
     }
-
+    
     public void setId(Long id) {
         this.id = id;
     }

@@ -11,6 +11,8 @@ import com.spring.hibernate.entity.Sales;
 import com.spring.hibernate.entity.SalesDetail;
 import com.spring.hibernate.util.TextComponentUtils;
 import com.spring.hibernate.view.product.ProductLookupDialog;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +35,7 @@ public class SalesView extends javax.swing.JInternalFrame {
         jdcTransaksi.setDate(new Date());
         enableForm(false);
         buttonConfig();
+        salesDetailTable.getTableHeader().setFont(new Font("Segoe UI", 0, 18));    
     }
 
     private void buttonConfig() {
@@ -41,6 +44,7 @@ public class SalesView extends javax.swing.JInternalFrame {
         btnEdit.setEnabled(false);
         btnCancel.setEnabled(false);
         btnAdd.setEnabled(true);
+        btnSearch.setEnabled(true);
     }
 
     private void clearForm() {
@@ -79,16 +83,19 @@ public class SalesView extends javax.swing.JInternalFrame {
             salesDetail.setSales(sales);
         }
         sales.setTotalSales(total);
+        //salesDetailTable.setEnabled(true);
     }
 
     private void loadModelToForm() {
         list = sales.getSalesDetails();
         salesDetailTable.setModel(new SalesDetailTableModel(list));
         txtTotal.setText(TextComponentUtils.formatNumber(sales.getTotalSales()));
+        //salesDetailTable.setEnabled(true);
     }
 
     private void refreshTable() {
         salesDetailTable.setModel(new SalesDetailTableModel(list));
+        salesDetailTable.revalidate();
     }
 
     private void refreshTotalSales() {
@@ -98,6 +105,8 @@ public class SalesView extends javax.swing.JInternalFrame {
                 total = total.add(salesDetail.getSubtotal());
             }
             txtTotal.setText("Rp. " + TextComponentUtils.formatNumber(total));
+        } else {
+            txtTotal.setText("Rp. 0,00");
         }
     }
 
@@ -136,7 +145,7 @@ public class SalesView extends javax.swing.JInternalFrame {
         btnSave = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
-        btnExit1 = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
@@ -145,10 +154,10 @@ public class SalesView extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtIdBarang = new javax.swing.JTextField();
         btnBrowseId = new javax.swing.JButton();
-        txtTotal = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         salesDetailTable = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JTextField();
 
         setClosable(true);
         setTitle("Penjualan");
@@ -218,11 +227,11 @@ public class SalesView extends javax.swing.JInternalFrame {
             }
         });
 
-        btnExit1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        btnExit1.setText("Cari");
-        btnExit1.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        btnSearch.setText("Cari");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExit1ActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
 
@@ -256,12 +265,6 @@ public class SalesView extends javax.swing.JInternalFrame {
             }
         });
 
-        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Total :");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -279,13 +282,9 @@ public class SalesView extends javax.swing.JInternalFrame {
                         .addComponent(btnBrowseId))
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jdcTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtTotal))
+                .addComponent(jdcTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -302,24 +301,34 @@ public class SalesView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBrowseId)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(btnBrowseId))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        salesDetailTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        salesDetailTable.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         salesDetailTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Barang", "Nama Barang", "Harga", "Kuantitas", "Subtotal"
+                "Tandai", "ID Barang", "Nama Barang", "Harga", "Kuantitas", "Subtotal"
             }
         ));
+        salesDetailTable.setCellSelectionEnabled(true);
         salesDetailTable.setGridColor(new java.awt.Color(204, 204, 204));
-        salesDetailTable.setRowHeight(22);
+        salesDetailTable.setRowHeight(26);
+        salesDetailTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                salesDetailTableKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(salesDetailTable);
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel4.setText("Total :");
+
+        txtTotal.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -328,29 +337,31 @@ public class SalesView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAdd)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnEdit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDelete)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnSave)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnCancel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnExit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnSearch)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdd)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEdit)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelete)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSave)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnExit)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnExit1)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnCancel, btnDelete, btnEdit, btnExit, btnExit1, btnSave});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnCancel, btnDelete, btnEdit, btnExit, btnSave, btnSearch});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,11 +374,15 @@ public class SalesView extends javax.swing.JInternalFrame {
                     .addComponent(btnSave)
                     .addComponent(btnCancel)
                     .addComponent(btnExit)
-                    .addComponent(btnExit1))
+                    .addComponent(btnSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -383,6 +398,7 @@ public class SalesView extends javax.swing.JInternalFrame {
         btnEdit.setEnabled(false);
         btnCancel.setEnabled(true);
         btnSave.setEnabled(true);
+        btnSearch.setEnabled(false);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -401,7 +417,6 @@ public class SalesView extends javax.swing.JInternalFrame {
         if (sales != null) {
             try {
                 Main.getSalesService().delete(sales);
-                System.out.println("Pass");
                 clearForm();
                 sales = null;
                 refreshTable();
@@ -449,7 +464,7 @@ public class SalesView extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private void btnExit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExit1ActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         Sales s = new SalesLookupDialog().getSales();
         if (s != null) {
             sales = Main.getSalesService().getSales(s.getId());
@@ -460,7 +475,7 @@ public class SalesView extends javax.swing.JInternalFrame {
             btnEdit.setEnabled(true);
             btnSave.setEnabled(false);
         }
-    }//GEN-LAST:event_btnExit1ActionPerformed
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnBrowseIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseIdActionPerformed
         Product p = new ProductLookupDialog().getProduct();
@@ -517,6 +532,25 @@ public class SalesView extends javax.swing.JInternalFrame {
         Main.getMainFrame().salesView = null;
     }//GEN-LAST:event_formInternalFrameClosed
 
+    private void salesDetailTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_salesDetailTableKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+            List<SalesDetail> newList = new ArrayList<>();
+            for (SalesDetail s : list) {
+                System.out.println(s.getHapus());
+                if (s.getHapus() == null) {
+                    newList.add(s);
+                } else {
+                    if (!s.getHapus()) {
+                        newList.add(s);
+                    }
+                }
+            }
+            list = newList;
+            refreshTable();
+            refreshTotalSales();
+        }
+    }//GEN-LAST:event_salesDetailTableKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -525,8 +559,8 @@ public class SalesView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnExit1;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -546,8 +580,8 @@ public class SalesView extends javax.swing.JInternalFrame {
 
         private List<SalesDetail> listSalesDetail;
 
-        public SalesDetailTableModel(List<SalesDetail> listSales) {
-            this.listSalesDetail = listSales;
+        public SalesDetailTableModel(List<SalesDetail> listSalesDetail) {
+            this.listSalesDetail = listSalesDetail;
         }
 
         @Override
@@ -557,7 +591,7 @@ public class SalesView extends javax.swing.JInternalFrame {
 
         @Override
         public int getColumnCount() {
-            return 5;
+            return 6;
         }
 
         @Override
@@ -565,14 +599,16 @@ public class SalesView extends javax.swing.JInternalFrame {
             SalesDetail s = listSalesDetail.get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    return s.getProduct().getId();
+                    return s.getHapus();
                 case 1:
-                    return s.getProduct().getName();
+                    return s.getProduct().getId();
                 case 2:
-                    return s.getProduct().getPrice();
+                    return s.getProduct().getName();
                 case 3:
-                    return s.getQuantity();
+                    return s.getProduct().getPrice();
                 case 4:
+                    return s.getQuantity();
+                case 5:
                     return s.getSubtotal();
                 default:
                     return null;
@@ -581,9 +617,11 @@ public class SalesView extends javax.swing.JInternalFrame {
 
         @Override
         public Class<?> getColumnClass(int columnIndex) {
-            if (columnIndex == 2 || columnIndex == 4) {
+            if (columnIndex == 0) {
+                return Boolean.class;
+            } else if (columnIndex == 3 || columnIndex == 5) {
                 return BigDecimal.class;
-            } else if (columnIndex == 3) {
+            } else if (columnIndex == 4) {
                 return Integer.class;
             }
             return String.class;
@@ -591,16 +629,24 @@ public class SalesView extends javax.swing.JInternalFrame {
 
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex) {
-            return columnIndex == 3;
+            return columnIndex == 0 || columnIndex == 4;
+            //return columnIndex == 4;
         }
 
         @Override
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             SalesDetail s = list.get(rowIndex);
-            if (columnIndex == 3) {
+            super.setValueAt(aValue, rowIndex, columnIndex);
+            //aValue = this.getValueAt(rowIndex, columnIndex);
+            if (columnIndex == 4) {
                 s.setQuantity((Integer) aValue);
                 s.setSubtotal(s.getPrice().multiply(new BigDecimal(s.getQuantity())));
+                refreshTable();
                 refreshTotalSales();
+            } else if (aValue != null && aValue instanceof Boolean && columnIndex == 0) {
+                boolean select = (Boolean) aValue;
+                list.get(rowIndex).setHapus(select);
+                refreshTable();
             }
         }
     }

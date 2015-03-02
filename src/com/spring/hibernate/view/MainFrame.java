@@ -160,8 +160,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
             salesView.setVisible(true);
             salesView.setSelected(true);
-            setCenter(salesView);
-            //personView.setSize(desktopPane.getSize());
+            //setCenter(salesView);
+            salesView.setSize(desktopPane.getSize());
         } catch (Exception e) {
             e.printStackTrace();
         }
